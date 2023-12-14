@@ -122,3 +122,35 @@ mysql> SELECT MAX(salary) FROM employee_payroll WHERE gender = 'M' GROUP BY gend
 |      100000 |
 +-------------+
 1 row in set (0.00 sec)
+
+--UC 9 - Ability to extend
+mysql> ALTER TABLE employee_payroll RENAME COLUMN salary TO basic_pay;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee_payroll ADD deductions Double NOT NULL AFTER basic_pay;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee_payroll ADD taxable_pay Double NOT NULL AFTER deductions;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee_payroll ADD income_tax Double NOT NULL AFTER taxable_pay;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee_payroll ADD net_pay Double NOT NULL AFTER income_tax;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  SELECT * FROM employee_payroll;
++----+-------+--------+-----------+------------+-------------+------------+---------+------------+
+| id | name  | gender | basic_pay | deductions | taxable_pay | income_tax | net_pay | start      |
++----+-------+--------+-----------+------------+-------------+------------+---------+------------+
+|  1 | Bill  | M      |    100000 |          0 |           0 |          0 |       0 | 2023-12-12 |
+|  2 | Emily |        |    120000 |          0 |           0 |          0 |       0 | 2023-11-12 |
+|  3 | John  | M      |     13000 |          0 |           0 |          0 |       0 | 2023-10-12 |
++----+-------+--------+-----------+------------+-------------+------------+---------+------------+
+3 rows in set (0.00 sec)
+
