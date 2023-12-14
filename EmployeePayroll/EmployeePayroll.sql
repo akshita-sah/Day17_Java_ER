@@ -154,3 +154,22 @@ mysql>  SELECT * FROM employee_payroll;
 +----+-------+--------+-----------+------------+-------------+------------+---------+------------+
 3 rows in set (0.00 sec)
 
+--UC 11 - Create multiple tables
+mysql> CREATE TABLE company (company_id INT PRIMARY KEY,name VARCHAR(50) NOT NULL);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE department (department_id INT PRIMARY KEY,name VARCHAR(50) NOT NULL);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE employee (employee_id INT PRIMARY KEY,company_id INT,name VARCHAR(255) NOT NULL,
+FOREIGN KEY (company_id) REFERENCES company(company_id));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> CREATE TABLE payroll (payroll_id INT PRIMARY KEY, employee_id INT UNIQUE,basic_pay INT,
+deductions INT,taxable_pay INT,FOREIGN KEY (employee_id) REFERENCES employee(employee_id));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE TABLE employee_department (employee_id INT, department_id INT,
+PRIMARY KEY (employee_id, department_id),FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
+FOREIGN KEY (department_id) REFERENCES department(department_id));
+Query OK, 0 rows affected (0.06 sec)
